@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     elkbastion.vm.hostname = "elastic-bastion.192.168.1.213.nip.io"
     elkbastion.vm.network "public_network", bridge:"eno1", ip: "192.168.1.213"
     elkbastion.vm.provision "file", source: "./password/password.txt", destination: "/tmp/password.txt"
-    elkbastion.vm.provision "file", "../ansible", destination: "/tmp/"
+    elkbastion.vm.provision "file", source: "../ansible", destination: "/tmp/"
     elkbastion.vm.provision "shell", path: "./bastion/configbastion.sh"
     elkbastion.vm.provider "virtualbox" do |v|
           v.name = "elastic-bastion"
