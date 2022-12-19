@@ -53,11 +53,6 @@ Users Virtual Machine:
 
     password: vagrant
 
-Openshift admin user:
-
-    user: admin
-
-    password: r3dh4t1!
 
 
 Download the project
