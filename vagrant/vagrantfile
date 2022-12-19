@@ -1,0 +1,66 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+
+
+  config.vm.define "elastic-one" do |elasticcone|
+    elasticcone.vm.box = "centos/stream8"
+    elasticcone.vm.box_version = "20210210.0"
+    elasticcone.vm.hostname = "elastic-one.192.168.1.210.nip.io"
+    elasticcone.vm.network "public_network", bridge:"eno1", ip: "192.168.1.210"
+    elasticcone.vm.provision "shell", path: "./nodes/config.sh"
+    elasticcone.vm.provider "virtualbox" do |v|
+          v.name = "elastic-one"
+          v.memory = 4024
+          v.cpus = 2
+      end
+  end
+
+  config.vm.define "elastic-two" do |elastictwo|
+    elastictwo.vm.box = "centos/stream8"
+    elastictwo.vm.box_version = "20210210.0"
+    elastictwo.vm.hostname = "elastic-two.192.168.1.211.nip.io"
+    elastictwo.vm.network "public_network", bridge:"eno1", ip: "192.168.1.211"
+    elastictwo.vm.provision "shell", path: "./nodes/config.sh"
+    elastictwo.vm.provider "virtualbox" do |v|
+          v.name = "elastic-two"
+          v.memory = 4024
+          v.cpus = 2
+      end
+  end
+
+
+  config.vm.define "elastic-three" do |elasticthree|
+    elasticthree.vm.box = "centos/stream8"
+    elasticthree.vm.box_version = "20210210.0"
+    elasticthree.vm.hostname = "elastic-three.192.168.1.212.nip.io"
+    elasticthree.vm.network "public_network", bridge:"eno1", ip: "192.168.1.212"
+    elasticthree.vm.provision "shell", path: "./nodes/config.sh"
+    elasticthree.vm.provider "virtualbox" do |v|
+          v.name = "elastic-three"
+          v.memory = 4024
+          v.cpus = 2
+      end
+  end
+
+
+  config.vm.define "elastic-bastion" do |elkbastion|
+    elkbastion.vm.box = "centos/stream8"
+    elkbastion.vm.box_version = "20210210.0"
+    elkbastion.vm.hostname = "elastic-bastion.192.168.1.213.nip.io"
+    elkbastion.vm.network "public_network", bridge:"eno1", ip: "192.168.1.213"
+    elkbastion.vm.provision "file", source: "./password/password.txt", destination: "/tmp/password.txt"
+    elkbastion.vm.provision "file", "../ansible", destination: "/tmp/
+    elkbastion.vm.provision "shell", path: "./bastion/configbastion.sh"
+    elkbastion.vm.provider "virtualbox" do |v|
+          v.name = "elastic-bastion"
+          v.memory = 2024
+          v.cpus = 2
+      end
+  end
+
+end
